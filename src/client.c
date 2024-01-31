@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 19:21:23 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/01/30 19:23:32 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/01/31 15:10:45 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int	main(int argc, char **argv)
 	signal(SIGUSR1, handle_acknowledgment);
 	if (argc != 3 && ft_atoi(argv[1]) <= 0)
 		return (EXIT_FAILURE);
+	g_received_bit = 1;
 	while (*argv[2])
 	{
 		send_char((unsigned char)*argv[2], 0, ft_atoi(argv[1]));

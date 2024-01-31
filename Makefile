@@ -1,26 +1,23 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/01/30 15:43:35 by ael-mank          #+#    #+#              #
-#    Updated: 2024/01/30 15:43:36 by ael-mank         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+# Variables
 
+NAME_CLI = client
+NAME_SER = server
 
-NAME_CLIENT = client
-NAME_SERVER = server
+CC = gcc
 
-SRCS_CLIENT = src/client.c
-SRCS_SERVER = src/server.c
+SRC_FILES_CLI = client
+SRC_FILES_SER = server
 
-OBJS_CLIENT = $(SRCS_CLIENT:.c=.o)
-OBJS_SERVER = $(SRCS_SERVER:.c=.o)
+SRC_DIR = ./src/
+OBJ_DIR = ./obj/
 
-INCLUDE = include
+CFLAGS = -Wall -Wextra -Werror -Ilibft/include -Iinclude
+
+SRC_CLI = $(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES_CLI)))
+SRC_SER = $(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES_SER)))
+
+OBJ_CLI = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES_CLI)))
+OBJ_SER = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES_SER)))
 
 LIB = $(addprefix $(LIB_PATH), libft.a)
 
@@ -28,33 +25,47 @@ LIB_PATH = libft/
 
 LIB_INCLUDE = libft/include
 
-CC = cc
+MAKE := make
 
-CFLAGS = -Wall -Wextra -Werror
+GREEN=\033[0;32m
+YELLOW=\033[0;33m
+BLUE=\033[0;34m
+MAGENTA=\033[0;35m
+NC=\033[0m
 
-src/%.o: src/%.c $(INCLUDE)
-	$(CC) $(CFLAGS) -I $(INCLUDE) -I $(LIB_INCLUDE) -c $< -o $(<:.c=.o)
+# Phony targets
+.PHONY: all clean fclean re libft bonus
 
-all: $(NAME_CLIENT) $(NAME_SERVER)
-
-$(NAME_CLIENT) : $(OBJS_CLIENT) $(LIB)
-	$(CC) $(CFLAGS) $(OBJS_CLIENT) -L $(LIB_PATH) -l ft -o $(NAME_CLIENT)
-
-$(NAME_SERVER) : $(OBJS_SERVER) $(LIB)
-	$(CC) $(CFLAGS) $(OBJS_SERVER) -L $(LIB_PATH) -l ft -o $(NAME_SERVER)
+# Rules
+all: $(NAME_CLI) $(NAME_SER)
 
 $(LIB):
-	@cd ./libft && make > /dev/null && make bonus > /dev/null && make printf > /dev/null
+	@cd ./libft && $(MAKE) > /dev/null && $(MAKE) bonus > /dev/null && $(MAKE) printf > /dev/null
+	@echo "$(GREEN)Built Libft ✅ $(NC)"
 
+$(NAME_CLI): $(OBJ_CLI) $(LIB)
+	@$(CC) -Llibft -o $@ $^ -lft $(CFLAGS)
+	@echo "$(BLUE)Compiled $(NAME_CLI) ✅ $(NC)"
 
-clean :
-	make clean -C libft
-	rm -f $(OBJS_CLIENT) $(OBJS_SERVER)
+$(NAME_SER): $(OBJ_SER) $(LIB)
+	@$(CC) -Llibft -o $@ $^ -lft $(CFLAGS)
+	@echo "$(BLUE)Compiled $(NAME_SER) ✅ $(NC)"
 
-fclean : clean
-	make fclean -C libft
-	rm -f $(NAME_CLIENT) $(NAME_SERVER)
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c
+	@mkdir -p $(@D)
+	@$(CC) $(CFLAGS) -c $< -o $@
 
-re : fclean all
+bonus: all
 
-.PHONY : libft all clean fclean re
+clean:
+	@$(RM) -rf $(OBJ_DIR)
+	@echo "$(MAGENTA)Cleaned object files ✅ $(NC)"
+
+fclean: clean
+	@cd ./libft && $(MAKE) fclean > /dev/null
+	@echo "$(MAGENTA)Cleaned libft ❎ $(NC)"
+	@$(RM) -f $(NAME_CLI)
+	@$(RM) -f $(NAME_SER)
+	@echo "$(MAGENTA)Cleaned $(NAME_CLI) and $(NAME_SER) ❎ $(NC)"
+
+re: fclean all

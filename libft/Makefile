@@ -6,7 +6,7 @@
 #    By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/02 19:23:02 by ael-mank          #+#    #+#              #
-#    Updated: 2024/01/20 12:22:08 by ael-mank         ###   ########.fr        #
+#    Updated: 2024/01/31 09:18:02 by ael-mank         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ SRC_DIR_LIB = src/libft/
 OBJ_DIR_LIB = obj/libft/
 OBJ_DIR_PRINT = obj/printf/
 CC          = cc
-CFLAGS      = -Wall -Werror -Wextra -I$(INCLUDE)
+CFLAGS      = -Wall -Werror -Wextra -I$(INCLUDE) -fPIE
 DEBUG_FLAGS = -g
 RM          = rm -f
 AR          = ar rcs
