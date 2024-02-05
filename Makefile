@@ -6,7 +6,7 @@ NAME_SER = server
 CC = gcc
 
 SRC_FILES_CLI = client
-SRC_FILES_SER = server
+SRC_FILES_SER = server server_header
 
 SRC_DIR = ./src/
 OBJ_DIR = ./obj/

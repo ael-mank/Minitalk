@@ -6,7 +6,7 @@
 /*   By: ael-mank <ael-mank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 15:43:27 by ael-mank          #+#    #+#             */
-/*   Updated: 2024/01/30 19:30:07 by ael-mank         ###   ########.fr       */
+/*   Updated: 2024/02/05 11:18:54 by ael-mank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,7 @@
 # define BCYN "\e[1;36m"
 # define BWHT "\e[1;37m"
 # define CRESET "\e[0m"
+
+void	print_header(int pid);
 
 #endif
